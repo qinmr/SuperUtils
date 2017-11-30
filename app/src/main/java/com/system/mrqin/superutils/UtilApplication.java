@@ -22,14 +22,5 @@ public class UtilApplication extends Application {
         LogUtil.i(TAG, BuildConfig.LOG_DEBUG);
         LogUtil.d(TAG, BuildConfig.LOG_DEBUG);
         LogUtil.e(TAG, BuildConfig.LOG_DEBUG);
-        LogUtil.init(false);
-        LogUtil.v(TAG, BuildConfig.LOG_DEBUG);
-        LogUtil.w(TAG, BuildConfig.LOG_DEBUG);
-        LogUtil.i(TAG, BuildConfig.LOG_DEBUG);
-        LogUtil.d(TAG, BuildConfig.LOG_DEBUG);
-        LogUtil.e(TAG, BuildConfig.LOG_DEBUG);
-
-
-
     }
 }
