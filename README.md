@@ -1,5 +1,7 @@
 
 <h2>CommonUtil:</h2>
+工具的使用需要在自己的功能清单文件加上对应的权限声明  ：
+
 <a href="https://github.com/qinmr/SuperUtils/blob/master/CommonUtil/src/main/java/com/system/mrqin/commonutil/log/LogUtil.java">LogUtil：</a>
 
 
