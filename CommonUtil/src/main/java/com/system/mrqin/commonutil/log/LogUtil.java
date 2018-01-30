@@ -122,6 +122,7 @@ public class LogUtil {
             case TEST:
                 XmlLog.printXml(tag, msg.toString());
                 break;
+            default:break;
         }
     }
 

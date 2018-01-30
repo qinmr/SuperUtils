@@ -18,38 +18,34 @@ import java.util.List;
 /**
  * auther  mrqin
  * Created by Administrator on 2017/11/29.
- *
- *请求权限处理是无回调的，如果想要回调的结果就使用setmOnPermissionListener将回调传入，并且在
+ * <p>
+ * 请求权限处理是无回调的，如果想要回调的结果就使用setmOnPermissionListener将回调传入，并且在
  * activity（fragment）的onRequestPermissionsResult将结果传回来
  *
- *     @Override
- *     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
- *     MPermissionUtils.onRequestPermissionsResult(requestCode, permissions, grantResults);
- *     }
- *
- *   showTipsDialog弹出一个提示框，在失败后进行使用
- *
- *
+ * @Override public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+ * MPermissionUtils.onRequestPermissionsResult(requestCode, permissions, grantResults);
+ * }
+ * <p>
+ * showTipsDialog弹出一个提示框，在失败后进行使用
  */
 
 public class MPermissionUtils {
 
     private static int mRequestCode = -1;
 
-
     public static void requestPermissionsResult(Activity activity, int requestCode
-            , String[] permission) {
-        requestPermissions(activity, requestCode, permission);
+            , String[] permission, OnPermissionListener listener) {
+        requestPermissions(activity, requestCode, permission, listener);
     }
 
     public static void requestPermissionsResult(android.app.Fragment fragment, int requestCode
-            , String[] permission) {
-        requestPermissions(fragment, requestCode, permission);
+            , String[] permission, OnPermissionListener listener) {
+        requestPermissions(fragment, requestCode, permission, listener);
     }
 
     public static void requestPermissionsResult(android.support.v4.app.Fragment fragment, int requestCode
-            , String[] permission) {
-        requestPermissions(fragment, requestCode, permission);
+            , String[] permission, OnPermissionListener listener) {
+        requestPermissions(fragment, requestCode, permission, listener);
     }
 
     /**
@@ -60,11 +56,13 @@ public class MPermissionUtils {
      * @param permissions 需要请求的权限
      */
     @TargetApi(Build.VERSION_CODES.M)
-    private static void requestPermissions(Object object, int requestCode, String[] permissions) {
+    private static void requestPermissions(Object object, int requestCode, String[] permissions, OnPermissionListener listener) {
         checkCallingObjectSuitability(object);
+        mOnPermissionListener = listener;
         if (checkPermissions(getContext(object), permissions)) {
-            if (mOnPermissionListener != null)
+            if (mOnPermissionListener != null) {
                 mOnPermissionListener.onPermissionGranted();
+            }
         } else {
             List<String> deniedPermissions = getDeniedPermissions(getContext(object), permissions);
             if (deniedPermissions.size() > 0) {
@@ -164,11 +162,13 @@ public class MPermissionUtils {
     public static void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
         if (mRequestCode != -1 && requestCode == mRequestCode) {
             if (verifyPermissions(grantResults)) {
-                if (mOnPermissionListener != null)
+                if (mOnPermissionListener != null) {
                     mOnPermissionListener.onPermissionGranted();
+                }
             } else {
-                if (mOnPermissionListener != null)
+                if (mOnPermissionListener != null) {
                     mOnPermissionListener.onPermissionDenied();
+                }
             }
         }
     }
@@ -208,10 +208,6 @@ public class MPermissionUtils {
         Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
         intent.setData(Uri.parse("package:" + context.getPackageName()));
         context.startActivity(intent);
-    }
-
-    public static void setmOnPermissionListener(OnPermissionListener listener){
-        mOnPermissionListener = listener;
     }
 
     public interface OnPermissionListener {
