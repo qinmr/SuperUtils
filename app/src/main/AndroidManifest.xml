@@ -8,8 +8,6 @@
 
     <!-- 多媒体 -->
     <uses-permission android:name="android.permission.CAMERA" />
-    <uses-permission android:name="android.permission.RECORD_AUDIO" />
-    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
 
     <application
         android:name=".UtilApplication"
@@ -27,10 +25,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".activity.CameraActivity">
-
-        </activity>
-
+        <activity android:name=".activity.CameraActivity"></activity>
+        <activity android:name=".activity.LocationActivity"></activity>
     </application>
 
 </manifest>

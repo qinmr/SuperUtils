@@ -26,4 +26,7 @@ public class MainActivity extends AppCompatActivity {
         CameraActivity.start(MainActivity.this);
     }
 
+    public void startLocationActivity(View view) {
+        LocationActivity.start(MainActivity.this);
+    }
 }

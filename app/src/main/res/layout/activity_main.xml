@@ -9,9 +9,9 @@
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar"
-        android:background="@color/colorPrimaryDark"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:background="@color/colorPrimaryDark">
 
     </android.support.v7.widget.Toolbar>
 
@@ -20,5 +20,11 @@
         android:layout_height="wrap_content"
         android:onClick="startCameraActivity"
         android:text="@string/camera_util" />
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="startLocationActivity"
+        android:text="@string/location_util" />
 
 </LinearLayout>
