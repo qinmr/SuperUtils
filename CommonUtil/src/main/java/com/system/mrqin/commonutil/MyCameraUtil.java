@@ -14,6 +14,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Locale;
 
 /**
  * Created by mrqin on 2018/1/29 15.
@@ -92,11 +93,16 @@ public class MyCameraUtil {
      * @param fileType ,文件的类型，即扩展名，例如.jpg 、.mp4 、.mp3等
      * @return , 图片文件名,格式形式20161011_111523.jpg
      */
-    public static String createFileType(String fileType) {
-        String fileName = "";
-        Date date = new Date(System.currentTimeMillis());
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd_HHmmss");
-        fileName = sdf.format(date) + fileType;
+    public static String createFileName(String fileType) {
+
+//        String filename = new SimpleDateFormat("yyyyMMdd-HHmmss", Locale.CHINA)
+//                .format(new Date()) + ".png";
+//        File file = new File(Environment.getExternalStorageDirectory(), filename);
+
+
+        String fileName;
+        Date date = new Date();
+        fileName = new SimpleDateFormat("yyyyMMdd-HHmmss", Locale.CHINA).format(date) + fileType;
         return fileName;
     }
 
@@ -189,31 +195,31 @@ public class MyCameraUtil {
     public static Intent openCamera(Uri uri) {
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         intent.putExtra(MediaStore.EXTRA_OUTPUT, uri);
-        //进行自动对焦操作
-        intent.putExtra("autofocus", true);
+        intent.putExtra("return-data", true);
         return intent;
     }
 
     /**
      * 打开手机系统的图片裁剪Activity
      *
-     * @param inUri  , 待裁剪图片的uri
-     * @param outUri , 裁剪后图片保存的uri
+     * @param inUri , 待裁剪图片的uri
      * @return intent , Activity调用的intent
      */
-    public static Intent cropPicture(Uri inUri, Uri outUri) {
+    public static Intent cropPicture(Uri inUri,int x,int y,int width,int height) {
         Intent intent = new Intent("com.android.camera.action.CROP");
         //设置图片资源路径
         intent.setDataAndType(inUri, "image/*");
         intent.putExtra("scale", true);
         intent.putExtra("crop", true);
         // aspectX aspectY 是宽高的比例
-        intent.putExtra("aspectX", 1);
-        intent.putExtra("aspectY", 1);
+        intent.putExtra("aspectX", x);
+        intent.putExtra("aspectY", y);
         // outputX,outputY 是剪裁图片的宽高
-        intent.putExtra("outputX", 800);
-        intent.putExtra("outputY", 800);
-        intent.putExtra(MediaStore.EXTRA_OUTPUT, outUri);
+        intent.putExtra("outputX", width);
+        intent.putExtra("outputY", height);
+        // 取消人脸识别
+        intent.putExtra("noFaceDetection", true);
+        intent.putExtra("return-data", false);
         intent.putExtra("outputFormat", Bitmap.CompressFormat.JPEG.toString());
         return intent;
     }

@@ -1,8 +1,3 @@
 <resources>
     <string name="app_name">CommonUtil</string>
-
-    <string name="camera_util">相机工具</string>
-    <!-- camera_util -->
-    <string name="open_camera">打开相机</string>
-    <string name="open_gallery">打开相册</string>
 </resources>
