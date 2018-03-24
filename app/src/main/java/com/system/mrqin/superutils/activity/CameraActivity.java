@@ -56,7 +56,7 @@ public class CameraActivity extends BaseActivity {
     private ImageView imgTest2;
     private ImageView imgTest3;
 
-    private Uri outUri;
+    private Uri uriForFile;
     private String path;
 
     private ArrayList<Bitmap> bitmaps = new ArrayList<>();
@@ -159,7 +159,7 @@ public class CameraActivity extends BaseActivity {
         //创建图片的文件
         File file = new File(filePath, fileName);
         path = file.getAbsolutePath();
-        Uri uriForFile = FileProvider7.getUriForFile(mContext, file);
+        uriForFile = FileProvider7.getUriForFile(mContext, file);
         Intent intent = MyCameraUtil.openCamera(uriForFile);
         startActivityForResult(intent, ACT_CAMERA);
     }
@@ -183,9 +183,9 @@ public class CameraActivity extends BaseActivity {
         //创建图片的文件
         File file = new File(filePath, fileName);
         Intent intent = MyCameraUtil.cropPicture(inUri, 1, 1, 180, 180);
-        path = file.getAbsolutePath();
-        outUri = FileProvider7.getUriForFile(mContext, file);
-        intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(file));
+//        path = file.getAbsolutePath();
+//        outUri = FileProvider7.getUriForFile(mContext, file);
+//        intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(file));
         startActivityForResult(intent, ACT_CROP);
     }
 
@@ -248,8 +248,7 @@ public class CameraActivity extends BaseActivity {
                     }
                 } else {
                     if (CROP) {
-                        Uri uri = Uri.fromFile(new File(path));
-                        startCrop(uri);
+                        startCrop(uriForFile);
                     } else {
                         Bitmap bitmap = BitmapFactory.decodeFile(path);
                         logBitmapSize(bitmap);
@@ -258,16 +257,16 @@ public class CameraActivity extends BaseActivity {
                 }
                 break;
             case ACT_CROP:
-//                if (null != data) {
-//                    Bitmap bitmap = getBitmapFromUri(data.getData());
-//                    logBitmapSize(bitmap);
-//                    imgCrop.setImageBitmap(bitmap);
-//                } else {
-//
-//                }
-                Bitmap bitmap = BitmapFactory.decodeFile(path);
-                logBitmapSize(bitmap);
-                imgCrop.setImageBitmap(bitmap);
+                if (null != data) {
+                    Bitmap bitmap = getBitmapFromUri(data.getData());
+                    logBitmapSize(bitmap);
+                    imgCrop.setImageBitmap(bitmap);
+                } else {
+
+                }
+//                Bitmap bitmap = BitmapFactory.decodeFile(path);
+//                logBitmapSize(bitmap);
+//                imgCrop.setImageBitmap(bitmap);
                 break;
             default:
                 break;

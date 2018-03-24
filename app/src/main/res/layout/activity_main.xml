@@ -7,13 +7,7 @@
     android:orientation="vertical"
     tools:context="com.system.mrqin.superutils.activity.MainActivity">
 
-    <android.support.v7.widget.Toolbar
-        android:id="@+id/toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/colorPrimaryDark">
-
-    </android.support.v7.widget.Toolbar>
+    <include layout="@layout/toolbar" />
 
     <Button
         android:layout_width="match_parent"
@@ -26,5 +20,17 @@
         android:layout_height="wrap_content"
         android:onClick="startLocationActivity"
         android:text="@string/location_util" />
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="startServiceActivity"
+        android:text="@string/service_test" />
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="startResponsiveActivity"
+        android:text="@string/responsive_UI" />
 
 </LinearLayout>

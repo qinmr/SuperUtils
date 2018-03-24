@@ -3,9 +3,17 @@
 
     <string name="camera_util">相机工具</string>
     <string name="location_util">位置工具</string>
+    <string name="service_test">Messager测试</string>
+    <string name="responsive_UI">响应式UI</string>
+
     <!-- camera_util -->
     <string name="open_camera">打开相机</string>
     <string name="open_gallery">打开相册</string>
     <string name="open_camera_crop">打开相机并裁剪</string>
     <string name="open_gallery_crop">打开相册并裁剪</string>
+
+    <!-- service_test -->
+    <string name="download">下载</string>
+    <string name="pause">暂停</string>
+    <string name="stop">停止</string>
 </resources>

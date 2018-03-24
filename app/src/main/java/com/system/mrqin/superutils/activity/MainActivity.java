@@ -29,4 +29,12 @@ public class MainActivity extends AppCompatActivity {
     public void startLocationActivity(View view) {
         LocationActivity.start(MainActivity.this);
     }
+
+    public void startServiceActivity(View view) {
+        SerViceTestActivity.start(MainActivity.this);
+    }
+
+    public void startResponsiveActivity(View view) {
+        ResponsiveActivity.start(MainActivity.this);
+    }
 }

@@ -1,17 +1,16 @@
-package com.system.mrqin.superutils;
+package com.system.mrqin.commonutil.application;
 
 import android.app.Application;
+import android.content.Context;
 import android.support.annotation.NonNull;
 
 import com.franmontiel.persistentcookiejar.ClearableCookieJar;
 import com.franmontiel.persistentcookiejar.PersistentCookieJar;
 import com.franmontiel.persistentcookiejar.cache.SetCookieCache;
 import com.franmontiel.persistentcookiejar.persistence.SharedPrefsCookiePersistor;
-import com.system.mrqin.commonutil.application.BaseApplication;
 import com.system.mrqin.commonutil.logs.KLog;
 import com.system.mrqin.commonutil.net.http.Https;
 import com.system.mrqin.commonutil.net.http.OkHttpUtils;
-import com.system.mrqin.superutils.util.CityListLoader;
 
 import java.io.File;
 import java.io.IOException;
@@ -30,20 +29,40 @@ import okhttp3.RequestBody;
 import okhttp3.Response;
 import okio.Buffer;
 
+
 /**
- * Created by Administrator on 2017/11/28.
+ * 基础Application
+ *
+ * @author Lemon
+ * @use extends BaseApplication 或 在你的Application的onCreate方法中BaseApplication.init(this);
+ * @see #init
  */
+public class BaseApplication extends Application {
 
-public class UtilApplication extends BaseApplication {
+    private static final String TAG = "BaseApplication";
 
-    private static String TAG = "UtilApplication";
+    private static Application instance;
+    private static Context mContext;
+
+    public static Application getInstance() {
+        return instance;
+    }
 
     @Override
     public void onCreate() {
         super.onCreate();
-        //城市列表
-        CityListLoader.getInstance().loadProData(getApplicationContext());
-        KLog.init(BuildConfig.LOG_DEBUG);
+        mContext = this;
+        init(this);
+    }
+
+    /**
+     * 初始化方法
+     *
+     * @param application
+     * @must 调用init方法且只能调用一次，如果extends BaseApplication会自动调用
+     */
+    private void init(Application application) {
+        instance = application;
         initOkHttp();
     }
 
@@ -54,7 +73,7 @@ public class UtilApplication extends BaseApplication {
         File cache = getExternalCacheDir();
         int cacheSize = 50 * 1024 * 1024;
 
-        ClearableCookieJar cookieJar = new PersistentCookieJar(new SetCookieCache(), new SharedPrefsCookiePersistor(this));
+        ClearableCookieJar cookieJar = new PersistentCookieJar(new SetCookieCache(), new SharedPrefsCookiePersistor(mContext));
         Https.SSLParams sslParams = Https.getSslSocketFactory(null, null, null);
 
         OkHttpClient okHttpClient = new OkHttpClient.Builder()

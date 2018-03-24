@@ -18,7 +18,7 @@ import com.system.mrqin.superutils.R;
 
 public abstract class BaseActivity extends AppCompatActivity {
 
-    private String simpleName;
+    protected String simpleName;
     protected Context mContext;
     protected View mRootView;
 
