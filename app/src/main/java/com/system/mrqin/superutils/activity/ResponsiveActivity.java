@@ -1,7 +1,5 @@
 package com.system.mrqin.superutils.activity;
 
-import android.arch.lifecycle.Observer;
-import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.Nullable;
@@ -15,13 +13,12 @@ import android.view.ViewGroup;
 import com.system.mrqin.superutils.R;
 import com.system.mrqin.superutils.adapter.EasyAdapter;
 import com.system.mrqin.superutils.bean.User;
-import com.system.mrqin.superutils.viewmodel.UserProfileViewModel;
 
 import java.util.List;
 
 public class ResponsiveActivity extends BaseActivity {
 
-    private UserProfileViewModel viewModel;
+//    private UserProfileViewModel viewModel;
 
     EasyAdapter adapter;
 
@@ -34,19 +31,19 @@ public class ResponsiveActivity extends BaseActivity {
     void initViews(Bundle savedInstanceState) {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         initToolBar(getString(R.string.responsive_UI), toolbar, true);
-        viewModel = ViewModelProviders.of(this).get(UserProfileViewModel.class);
-        viewModel.init("265");
-        viewModel.getUser().observe(this, new Observer<List<User>>() {
-            @Override
-            public void onChanged(@Nullable List<User> users) {
-                adapter.clear();
-                adapter.addAll(users);
-            }
-        });
-        adapter = new EasyAdapter(mContext);
-        RecyclerView easyRecyclerView = (RecyclerView) findViewById(R.id.easy);
-        easyRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-        easyRecyclerView.setAdapter(adapter);
+//        viewModel = ViewModelProviders.of(this).get(UserProfileViewModel.class);
+//        viewModel.init("265");
+//        viewModel.getUser().observe(this, new Observer<List<User>>() {
+//            @Override
+//            public void onChanged(@Nullable List<User> users) {
+//                adapter.clear();
+//                adapter.addAll(users);
+//            }
+//        });
+//        adapter = new EasyAdapter(mContext);
+//        RecyclerView easyRecyclerView = (RecyclerView) findViewById(R.id.easy);
+//        easyRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+//        easyRecyclerView.setAdapter(adapter);
     }
 
     @Override

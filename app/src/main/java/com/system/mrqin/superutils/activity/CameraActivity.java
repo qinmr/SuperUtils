@@ -2,6 +2,7 @@ package com.system.mrqin.superutils.activity;
 
 import android.Manifest;
 import android.app.Activity;
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
@@ -56,8 +57,8 @@ public class CameraActivity extends BaseActivity {
     private ImageView imgTest2;
     private ImageView imgTest3;
 
-    private Uri uriForFile;
     private String path;
+    private String cropPath;
 
     private ArrayList<Bitmap> bitmaps = new ArrayList<>();
 
@@ -103,7 +104,6 @@ public class CameraActivity extends BaseActivity {
      */
     private final String[] BASIC_PERMISSIONS = new String[]{
             Manifest.permission.WRITE_EXTERNAL_STORAGE,
-            Manifest.permission.READ_EXTERNAL_STORAGE,
             Manifest.permission.CAMERA
     };
 
@@ -159,7 +159,7 @@ public class CameraActivity extends BaseActivity {
         //创建图片的文件
         File file = new File(filePath, fileName);
         path = file.getAbsolutePath();
-        uriForFile = FileProvider7.getUriForFile(mContext, file);
+        Uri uriForFile = FileProvider7.getUriForFile(mContext, file);
         Intent intent = MyCameraUtil.openCamera(uriForFile);
         startActivityForResult(intent, ACT_CAMERA);
     }
@@ -183,9 +183,8 @@ public class CameraActivity extends BaseActivity {
         //创建图片的文件
         File file = new File(filePath, fileName);
         Intent intent = MyCameraUtil.cropPicture(inUri, 1, 1, 180, 180);
-//        path = file.getAbsolutePath();
-//        outUri = FileProvider7.getUriForFile(mContext, file);
-//        intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(file));
+        cropPath = file.getAbsolutePath();
+        intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(file));
         startActivityForResult(intent, ACT_CROP);
     }
 
@@ -233,40 +232,26 @@ public class CameraActivity extends BaseActivity {
                         imgTest3.setImageBitmap(bitmap3);
                         bitmaps.add(bitmap3);
 
-
                     }
                 }
                 break;
             case ACT_CAMERA:
-                if (null != data) {
-                    if (CROP) {
-                        startCrop(data.getData());
-                    } else {
-                        Bitmap bitmap = BitmapFactory.decodeFile(path);
-                        logBitmapSize(bitmap);
-                        imgCamera.setImageBitmap(bitmap);
-                    }
+                if (CROP) {
+                    startCrop(getImageContentUri(new File(path)));
                 } else {
-                    if (CROP) {
-                        startCrop(uriForFile);
-                    } else {
-                        Bitmap bitmap = BitmapFactory.decodeFile(path);
+                    Bitmap bitmap = BitmapFactory.decodeFile(path);
+                    if (null != bitmap) {
                         logBitmapSize(bitmap);
                         imgCamera.setImageBitmap(bitmap);
                     }
                 }
                 break;
             case ACT_CROP:
-                if (null != data) {
-                    Bitmap bitmap = getBitmapFromUri(data.getData());
+                Bitmap bitmap = BitmapFactory.decodeFile(cropPath);
+                if (null != bitmap) {
                     logBitmapSize(bitmap);
                     imgCrop.setImageBitmap(bitmap);
-                } else {
-
                 }
-//                Bitmap bitmap = BitmapFactory.decodeFile(path);
-//                logBitmapSize(bitmap);
-//                imgCrop.setImageBitmap(bitmap);
                 break;
             default:
                 break;
@@ -311,6 +296,36 @@ public class CameraActivity extends BaseActivity {
     //获取bitmap的大小
     public void logBitmapSize(Bitmap bitmap) {
         KLog.i(TAG, bitmap.getRowBytes() * bitmap.getHeight() / 1024 + "/" + bitmap.getWidth() + "/" + bitmap.getHeight());
+    }
+
+    /**
+     * 转换 content:// uri
+     *
+     * @param imageFile
+     * @return
+     */
+    public Uri getImageContentUri(File imageFile) {
+        String filePath = imageFile.getAbsolutePath();
+        Cursor cursor = getContentResolver().query(
+                MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
+                new String[]{MediaStore.Images.Media._ID},
+                MediaStore.Images.Media.DATA + "=? ",
+                new String[]{filePath}, null);
+        if (cursor != null && cursor.moveToFirst()) {
+            int id = cursor.getInt(cursor
+                    .getColumnIndex(MediaStore.MediaColumns._ID));
+            Uri baseUri = Uri.parse("content://media/external/images/media");
+            return Uri.withAppendedPath(baseUri, "" + id);
+        } else {
+            if (imageFile.exists()) {
+                ContentValues values = new ContentValues();
+                values.put(MediaStore.Images.Media.DATA, filePath);
+                return getContentResolver().insert(
+                        MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values);
+            } else {
+                return null;
+            }
+        }
     }
 
     @Override
