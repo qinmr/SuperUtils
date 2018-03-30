@@ -37,4 +37,8 @@ public class MainActivity extends AppCompatActivity {
     public void startResponsiveActivity(View view) {
         ResponsiveActivity.start(MainActivity.this);
     }
+
+    public void startNotificationActivity(View view) {
+        NotificationActivity.start(MainActivity.this);
+    }
 }

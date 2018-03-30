@@ -47,7 +47,7 @@ public class SerViceTestActivity extends BaseActivity {
     @Override
     void initViews(Bundle savedInstanceState) {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        initToolBar(getString(R.string.location_util), toolbar, true);
+        initToolBar(getString(R.string.service_test), toolbar, true);
     }
 
     @Override

@@ -80,7 +80,7 @@ public abstract class BaseActivity extends AppCompatActivity {
     protected void initToolBar(String title, Toolbar toolbar, boolean homeAsUpEnabled) {
         setSupportActionBar(toolbar);
         if (null != getSupportActionBar()) {
-            toolbar.setTitle(title);
+            getSupportActionBar().setTitle(title);
             getSupportActionBar().setDisplayHomeAsUpEnabled(homeAsUpEnabled);
         }
     }

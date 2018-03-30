@@ -33,4 +33,10 @@
         android:onClick="startResponsiveActivity"
         android:text="@string/responsive_UI" />
 
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="startNotificationActivity"
+        android:text="@string/notification" />
+
 </LinearLayout>
