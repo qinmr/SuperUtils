@@ -1,6 +1,7 @@
 package com.system.mrqin.commonutil;
 
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.Resources;
 import android.view.Gravity;
@@ -9,7 +10,8 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.system.mrqin.commonutil.application.BaseApplication;
+import com.system.mrqin.commonutil.net.cookies.CookiesManager;
+
 
 /**
  * @Description 通用Toast提示
@@ -29,8 +31,15 @@ public class ToastUtil {
         internalToast = toast;
     }
 
+    @SuppressLint("StaticFieldLeak")
+    private static Context context = null;
+
+    public static void init(Context context) {
+        ToastUtil.context = context;
+    }
+
     public static Context getContext() {
-        return BaseApplication.getInstance();
+        return context;
     }
 
     public static void showText(CharSequence text) {

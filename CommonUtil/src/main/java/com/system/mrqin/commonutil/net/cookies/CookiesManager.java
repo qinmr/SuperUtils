@@ -2,7 +2,8 @@ package com.system.mrqin.commonutil.net.cookies;
 
 
 
-import com.system.mrqin.commonutil.application.BaseApplication;
+import android.annotation.SuppressLint;
+import android.content.Context;
 
 import java.util.List;
 
@@ -18,7 +19,14 @@ import okhttp3.HttpUrl;
  */
 public class CookiesManager implements CookieJar {
 
-    private final PersistentCookieStore cookieStore = new PersistentCookieStore(BaseApplication.getInstance());
+    @SuppressLint("StaticFieldLeak")
+    private static Context context = null;
+
+    public static void init(Context context) {
+        CookiesManager.context = context;
+    }
+
+    private final PersistentCookieStore cookieStore = new PersistentCookieStore(context);
 
     @Override
     public void saveFromResponse(HttpUrl url, List<Cookie> cookies) {

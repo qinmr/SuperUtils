@@ -41,4 +41,8 @@ public class MainActivity extends AppCompatActivity {
     public void startNotificationActivity(View view) {
         NotificationActivity.start(MainActivity.this);
     }
+
+    public void startHotfixActivity(View view) {
+        HotfixActivity.start(MainActivity.this);
+    }
 }

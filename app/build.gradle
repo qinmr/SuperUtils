@@ -1,4 +1,5 @@
 apply plugin: 'com.android.application'
+apply from: 'tinker-support.gradle'
 
 android {
     compileSdkVersion rootProject.ext.compileSdkVersion
@@ -9,18 +10,29 @@ android {
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1
         versionName "1.0"
+
+        ndk {
+            //设置支持的SO库架构
+            abiFilters 'armeabi' //, 'x86', 'armeabi-v7a', 'x86_64', 'arm64-v8a'
+        }
+    }
+    signingConfigs {
+        release {
+            storeFile file("./keystore/release.keystore")
+            storePassword "123456"
+            keyAlias "SuperUtils"
+            keyPassword "123456"
+        }
     }
     buildTypes {
         release {
-            buildConfigField "boolean", "LOG_DEBUG", "false"
-            minifyEnabled true
+            minifyEnabled false
+            signingConfig signingConfigs.release
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            buildConfigField "boolean", "LOG_DEBUG", "false"
         }
-
         debug {
             buildConfigField "boolean", "LOG_DEBUG", "true"
-            minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
 }
@@ -32,9 +44,8 @@ dependencies {
     compile project(':CommonUtil')
 
     //LiveData  ViewModel
-    compile "android.arch.lifecycle:extensions:1.0.0"
+//    compile "android.arch.lifecycle:extensions:1.0.0"
 //    testImplementation "android.arch.core:core-testing:1.0.0"
-    compile "android.arch.lifecycle:reactivestreams:1.0.0"
-
+//    compile "android.arch.lifecycle:reactivestreams:1.0.0"
 
 }

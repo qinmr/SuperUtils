@@ -6,6 +6,7 @@
     <string name="service_test">Messager测试</string>
     <string name="responsive_UI">响应式UI</string>
     <string name="notification">通知栏测试</string>
+    <string name="hotfix">热修复</string>
 
     <!-- camera_util -->
     <string name="open_camera">打开相机</string>

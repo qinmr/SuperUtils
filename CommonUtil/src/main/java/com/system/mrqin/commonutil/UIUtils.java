@@ -1,5 +1,6 @@
 package com.system.mrqin.commonutil;
 
+import android.annotation.SuppressLint;
 import android.app.ActivityManager;
 import android.content.Context;
 import android.content.res.ColorStateList;
@@ -13,8 +14,6 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.system.mrqin.commonutil.application.BaseApplication;
-
 import java.util.List;
 
 /**
@@ -24,8 +23,15 @@ import java.util.List;
 
 public class UIUtils {
 
+    @SuppressLint("StaticFieldLeak")
+    private static Context context = null;
+
+    public static void init(Context context) {
+        UIUtils.context = context;
+    }
+
     public static Context getContext() {
-        return BaseApplication.getInstance();
+        return context;
     }
 
     /**

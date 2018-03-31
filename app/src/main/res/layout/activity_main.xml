@@ -39,4 +39,10 @@
         android:onClick="startNotificationActivity"
         android:text="@string/notification" />
 
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="startHotfixActivity"
+        android:text="@string/hotfix" />
+
 </LinearLayout>
